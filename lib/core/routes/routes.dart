@@ -6,4 +6,7 @@ class Routes{
   // Auth routes
   static const String signInRoute = "/sign-in";
 
+  // home
+  static const String home = "/home";
+
 }

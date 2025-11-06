@@ -21,7 +21,7 @@ class App extends StatelessWidget {
       getPages: Navigation.routes,
       initialBinding: AppBindings(),
       builder: (BuildContext context, Widget? child) {
-        return ToastProvider(child: child!,);
+        return SafeArea(top: false, child: ToastProvider(child: child!));
       },
     );
   }
