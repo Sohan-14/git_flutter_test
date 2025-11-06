@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/config/app_sizes.dart';
 import '../../../core/config/app_colors.dart';
+import '../../../core/routes/routes.dart';
 import '../controllers/login_controller.dart';
 import '../widget/user_card.dart';
 
@@ -69,7 +70,7 @@ class LoginScreen extends GetView<LoginController> {
               return UserCard(
                 user: user,
                 onContinue: () {
-                  // Get.toNamed(Routes.home, arguments: user.login);
+                  Get.toNamed(Routes.home, arguments: user.login);
                 },
               );
             }),
