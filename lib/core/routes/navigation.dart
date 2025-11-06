@@ -13,5 +13,11 @@ class Navigation {
       page: () => SplashScreen(),
       binding: SplashBinding(),
     ),
+    // login navigation
+    GetPage(
+      name: Routes.signInRoute,
+      page: () => LoginScreen(),
+      binding: LoginBinding(),
+    ),
   ];
 }
