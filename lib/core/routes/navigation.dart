@@ -19,5 +19,11 @@ class Navigation {
       page: () => LoginScreen(),
       binding: LoginBinding(),
     ),
+    // home navigation
+    GetPage(
+      name: Routes.home,
+      page: () => HomeScreen(),
+      binding: HomeBinding(),
+    ),
   ];
 }
