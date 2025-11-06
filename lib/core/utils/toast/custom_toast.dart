@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum ToastType { error, success, warning, info, noInternet }
 
-class CustomToast {
+class Toast {
   static OverlayEntry? _overlayEntry;
   static bool _isShowing = false;
   static BuildContext? _cachedContext;
@@ -29,7 +29,7 @@ class CustomToast {
     Color textColor = Colors.white,
     Color iconColor = Colors.white,
     ToastType type = ToastType.info,
-    BuildContext? context, 
+    BuildContext? context,
     String? actionLabel,
     VoidCallback? action,
   }) {
@@ -37,7 +37,7 @@ class CustomToast {
 
     if (ctx == null) {
       debugPrint(
-        'CustomToast: No context available. Wrap your app with ToastProvider or pass context manually.',
+        'Toast: No context available. Wrap your app with ToastProvider or pass context manually.',
       );
       return;
     }
@@ -84,58 +84,87 @@ class CustomToast {
   }
 
   /// Quick methods - no context needed (if properly set up)
-  static void showError(String message, {Duration? duration, BuildContext? context, String? actionLabel, VoidCallback? action}) {
+  static void showError(
+    String message, {
+    Duration? duration,
+    BuildContext? context,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
     show(
       message: message,
       type: ToastType.error,
       duration: duration ?? const Duration(seconds: 3),
       context: context,
       action: action,
-      actionLabel: actionLabel
+      actionLabel: actionLabel,
     );
   }
 
-  static void showSuccess(String message, {Duration? duration, BuildContext? context, String? actionLabel, VoidCallback? action}) {
+  static void showSuccess(
+    String message, {
+    Duration? duration,
+    BuildContext? context,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
     show(
       message: message,
       type: ToastType.success,
       duration: duration ?? const Duration(seconds: 3),
       context: context,
       action: action,
-      actionLabel: actionLabel
+      actionLabel: actionLabel,
     );
   }
 
-  static void showWarning(String message, {Duration? duration, BuildContext? context, String? actionLabel, VoidCallback? action}) {
+  static void showWarning(
+    String message, {
+    Duration? duration,
+    BuildContext? context,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
     show(
       message: message,
       type: ToastType.warning,
       duration: duration ?? const Duration(seconds: 3),
       context: context,
       action: action,
-      actionLabel: actionLabel
+      actionLabel: actionLabel,
     );
   }
 
-  static void showInfo(String message, {Duration? duration, BuildContext? context, String? actionLabel, VoidCallback? action}) {
+  static void showInfo(
+    String message, {
+    Duration? duration,
+    BuildContext? context,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
     show(
       message: message,
       type: ToastType.info,
       duration: duration ?? const Duration(seconds: 3),
       context: context,
       action: action,
-      actionLabel: actionLabel
+      actionLabel: actionLabel,
     );
   }
 
-  static void showNoInternet({Duration? duration, BuildContext? context, String? actionLabel, VoidCallback? action}) {
+  static void showNoInternet({
+    Duration? duration,
+    BuildContext? context,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
     show(
       message: 'No internet connection',
       type: ToastType.noInternet,
       duration: duration ?? const Duration(seconds: 3),
       context: context,
       action: action,
-      actionLabel: actionLabel
+      actionLabel: actionLabel,
     );
   }
 
@@ -171,7 +200,7 @@ class ToastProvider extends StatelessWidget {
       initialEntries: <OverlayEntry>[
         OverlayEntry(
           builder: (BuildContext ctx) {
-            CustomToast.captureContext = ctx;
+            Toast.captureContext = ctx;
             return child;
           },
         ),
@@ -206,7 +235,8 @@ class _ToastWidget extends StatefulWidget {
 // Global reference to current toast state for hide animation
 _ToastWidgetState? _currentToastState;
 
-class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderStateMixin {
+class _ToastWidgetState extends State<_ToastWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -217,7 +247,10 @@ class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderSta
     // Set as current toast state for hide animation
     _currentToastState = this;
 
-    _controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
 
     _fadeAnimation = Tween<double>(
       begin: 0.0,
@@ -258,7 +291,7 @@ class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderSta
   @override
   Widget build(BuildContext context) {
     // Auto-capture context whenever toast is built
-    CustomToast.captureContext = context;
+    Toast.captureContext = context;
 
     return Positioned(
       bottom: MediaQuery.of(context).padding.bottom + 20,
@@ -271,19 +304,22 @@ class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderSta
           child: GestureDetector(
             onVerticalDragUpdate: (DragUpdateDetails details) {
               if (details.primaryDelta != null && details.primaryDelta! > 10) {
-                _controller.reverse().then((_) => CustomToast.hide());
+                _controller.reverse().then((_) => Toast.hide());
               }
             },
             child: Dismissible(
               key: const ValueKey<String>("toast"),
-              direction: DismissDirection.horizontal, 
+              direction: DismissDirection.horizontal,
               onDismissed: (_) {
-                CustomToast.hide();
+                Toast.hide();
               },
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: widget.backgroundColor,
                     borderRadius: BorderRadius.circular(8.0),
@@ -310,33 +346,36 @@ class _ToastWidgetState extends State<_ToastWidget> with SingleTickerProviderSta
                           ),
                         ),
                       ),
-                      if(widget.action != null && widget.actionLabel != null) Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: widget.action, 
-                          splashColor: widget.textColor.withValues(alpha: 0.2), 
-                          borderRadius: BorderRadius.circular(4.0), 
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4.0,  
-                              horizontal: 12.0,  
+                      if (widget.action != null && widget.actionLabel != null)
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: widget.action,
+                            splashColor: widget.textColor.withValues(
+                              alpha: 0.2,
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: widget.textColor),
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                            child: Text(
-                              widget.actionLabel!,
-                              style: TextStyle(
-                                color: widget.textColor,
-                                letterSpacing: 1.5,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 12.0,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: widget.textColor),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Text(
+                                widget.actionLabel!,
+                                style: TextStyle(
+                                  color: widget.textColor,
+                                  letterSpacing: 1.5,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      )
                     ],
                   ),
                 ),

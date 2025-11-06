@@ -1,0 +1,1 @@
+export './onboarding/screens/splash_screen.dart';

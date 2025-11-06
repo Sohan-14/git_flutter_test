@@ -108,25 +108,25 @@ class ExceptionHandler {
 
   static void toastErrorMessage(dynamic e) {
     if (e is BadRequestException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is UnauthorizedException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is ForbiddenException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is NotFoundException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is ServerException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is NetworkException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is TypeException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is UnknownException) {
-      CustomToast.showError(e.message);
+      Toast.showError(e.message);
     } else if (e is Exception) {
-      CustomToast.showError(e.toString());
+      Toast.showError(e.toString());
     } else {
-      CustomToast.showError("An unexpected error occurred");
+      Toast.showError("An unexpected error occurred");
     }
   }
 }

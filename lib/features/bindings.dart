@@ -1,0 +1,1 @@
+export './onboarding/bindings/splash_binding.dart';
