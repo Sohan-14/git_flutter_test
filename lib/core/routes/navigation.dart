@@ -25,5 +25,11 @@ class Navigation {
       page: () => HomeScreen(),
       binding: HomeBinding(),
     ),
+    // repo details navigation
+    GetPage(
+      name: Routes.repoDetals,
+      page: () => RepoDetailsScreen(),
+      binding: RepoDetailsBinding(),
+    ),
   ];
 }

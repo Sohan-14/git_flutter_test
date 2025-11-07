@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../core/services/github_services.dart';
+import '../../shared/models/repo_model.dart';
 
 class HomeController extends GetxController {
   final GithubService githubService = GithubService();
@@ -22,7 +23,7 @@ class HomeController extends GetxController {
     try {
       isLoading.value = true;
       error.value = "";
-      final data = await githubService.getRepos(username);
+      final data = await githubService.fetchRepos(username);
       repos.assignAll(data);
     } catch (e) {
       error.value = "Failed to load repositories";

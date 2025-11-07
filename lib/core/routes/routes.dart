@@ -9,4 +9,6 @@ class Routes{
   // home
   static const String home = "/home";
 
+  static const String repoDetals = "/repo-detals";
+
 }

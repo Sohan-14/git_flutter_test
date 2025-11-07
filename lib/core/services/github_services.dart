@@ -20,7 +20,7 @@ class GithubService {
 
     _dio = Dio(options);
 
-    /// ✅ Optional: Add interceptors for logging / debugging
+    ///  Optional: Add interceptors for logging / debugging
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -39,7 +39,6 @@ class GithubService {
     );
   }
 
-  /// ✅ Fetch GitHub user (used in Login Screen)
   Future<UserModel> fetchUser(String username) async {
     try {
       final response = await _dio.get('/users/$username');
@@ -49,12 +48,11 @@ class GithubService {
     }
   }
 
-  /// ✅ Fetch repositories (used on Home Screen)
   Future<List<RepoModel>> fetchRepos(String username) async {
     try {
       final response = await _dio.get(
         '/users/$username/repos',
-        queryParameters: {'per_page': 100},
+        queryParameters: {'per_page': 1000},
       );
 
       return (response.data as List)
@@ -65,7 +63,6 @@ class GithubService {
     }
   }
 
-  /// ✅ Centralized error handler
   String _handleError(DioException e) {
     if (e.type == DioExceptionType.connectionTimeout) {
       return 'Connection timeout. Check your internet.';
